@@ -31,9 +31,9 @@ public class SequenceBasedFlipper {
 			complete = pStack.isCorrectlyStacked();
 			System.out.println("Completeness: " + complete);
 			
-			if(i > 3){
-				System.exit(0);
-			}
+//			if(i > 3){
+//				System.exit(0);
+//			}
 			i++;
 		}
 
