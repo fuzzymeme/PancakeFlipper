@@ -78,7 +78,7 @@ public class SequenceBasedFlipper {
 			System.out.println("Bottom: " + topSeq.getBottomSize());
 			PancakeSequence match = pStack.getSequenceWithBottomSizeDeltaOne(topSeq.getBottomSize());
 			if(match != null){
-				System.out.println("Found match with: " + match);
+				System.out.println("Found simple move match with: " + match);
 				singleMoveFlips.add(pStack.size() - match.getPosition());
 				// TODO can drop out here as it can only flip once before having to recalculate
 				System.out.println("Before flip: " + pStack);
@@ -87,6 +87,7 @@ public class SequenceBasedFlipper {
 				System.out.println("After flip: " + pStack);
 				pStack.flipSequences(match.getPosition());
 				pStack.mergeSequences(topSeq, match);
+				System.out.println("After merge: " + pStack);
 
 				return true;
 			}
@@ -100,10 +101,11 @@ public class SequenceBasedFlipper {
 		for(PancakeSequence seq: pStack.getSequences()){
 			System.out.println("Top: " + seq.getTopSize());
 			match = pStack.getSequenceWithTopSizeDeltaOne(seq.getTopSize());
-			if(match != null){
-				System.out.println("Found match with: " + FlipperUtils.toStringSequence(match, pStack));
-				int firstMove = match.getPosition() + match.getLength();
-				System.out.println("First Move: " + firstMove);
+			
+			int firstMove = match.getPosition() + match.getLength();
+			if(match != null && firstMove != seq.getPosition()){
+				System.out.println("Found match with: " + FlipperUtils.toStringSequence(match, pStack));				
+				System.out.println("First Move: " + firstMove + ", second move will be at " + seq.getPosition());
 				List<Integer> moves = new ArrayList<Integer>();
 				moves.add(firstMove);
 //				moves.add(secondMove);
@@ -165,6 +167,8 @@ public class SequenceBasedFlipper {
 	public static void main(String[] args) {
 		SequenceBasedFlipper flipper = new SequenceBasedFlipper();
 		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(0, 2, 4, 1, 3));
+		
+//		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(0, 1, 2, 4, 3));
 //		pStack.createSequences();
 //		flipper.makeNextFlip(pStack);
 		flipper.flipUntilCorrectlyStacked(pStack);
