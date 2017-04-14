@@ -9,31 +9,26 @@ Given a pile of (virtual) pancakes, each of different sizes, piled in a random o
 If you replace the size of the pancake with a size ranking then the given pile is a list of integers that need to be ordered, so given...
 
 
-  4 3 1 5 2 0
+4 3 1 5 2 0
 
-..you'd want to produce...
+you'd want to produce...
 
 0 1 2 3 4 5
 
-.. with the fewest number of moves. (You should like of the right as the base of the pile)
+with the fewest number of moves. (You should like of the right as the base of the pile)
 
 Now we weren't looking for a perfect solution, we just wanted listen to how the candidate approached the problem, and generally we'd look for a solution that involved around 2n moves. 
 
 The 2n solution involved flipping the current highest out-of-position pancake to the top and then flipping from above the highest in-position pancake. In the case above we'd flip from below the five 
 
 4	3 1 5 2 0
-Flip   ^
+
+Flip below the five to give...
 
 5 1 3 4 2 0
 
-...then...
-
-5								0
-1								2
-3								4
-4								3
-2								1
-0 ____ flip here to give ->		5
+then flip below the zero to give...
+0 2 4 3 1 5
 
 Now the five is in the correct position and you can move on to correctly position the four. To do this you'd flip below the four to get it to the top then flip above the five to move the four down above the five. The four would then be in the correct position. You'd repeat this until the pile is in the correct order. Obviously with two moves per pancake the the number of moves required to order the pile 2 * the_number_of_pancakes, that is 2n. In big O this is O(n) aka linear with n. 
 
