@@ -21,7 +21,7 @@ Now we weren't looking for a perfect solution, we just wanted listen to how the 
 
 The 2n solution involved flipping the current highest out-of-position pancake to the top and then flipping from above the highest in-position pancake. In the case above we'd flip from below the five 
 
-4	3 1 5 2 0
+4 3 1 5 2 0
 
 Flip below the five to give...
 
