@@ -166,7 +166,7 @@ public class SequenceBasedFlipper {
 	
 	public static void main(String[] args) {
 		SequenceBasedFlipper flipper = new SequenceBasedFlipper();
-		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(0, 2, 4, 1, 3));
+		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(1, 0, 3, 2));
 		
 //		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(0, 1, 2, 4, 3));
 //		pStack.createSequences();
