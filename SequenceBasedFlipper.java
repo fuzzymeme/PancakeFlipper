@@ -27,7 +27,7 @@ public class SequenceBasedFlipper {
 //				flipCount++; // TODO Multiple flips in makeNextFlip
 //				recordMessage("No." + pStack.getFlipCount() + " " + pStack);
 			}
-
+			
 			complete = pStack.isCorrectlyStacked();
 			System.out.println("Completeness: " + complete);
 			
@@ -53,10 +53,6 @@ public class SequenceBasedFlipper {
 	private boolean makeNextFlip(SequencedPancakeStack pStack) {
 		
 		System.out.println("---- makeNextFlip -----");
-		if(pStack.isCorrectlyStacked()){
-			System.out.println("Complete");
-			return true;
-		}
 
 		// If one seq that simply needs to be flipped
 		if(pStack.getSequenceCount() == 1){
@@ -77,7 +73,7 @@ public class SequenceBasedFlipper {
 			System.out.println("Bottom: " + topSeq.getBottomSize());
 			PancakeSequence match = pStack.getSequenceWithBottomSizeDeltaOne(topSeq.getBottomSize());
 			if(match != null){
-				System.out.println("Found simple move match with: " + match);
+				System.out.println("Found single part move match with: " + match);
 				singleMoveFlips.add(pStack.size() - match.getPosition());
 				// TODO can drop out here as it can only flip once before having to recalculate
 				System.out.println("Before flip: " + pStack);
@@ -105,7 +101,7 @@ public class SequenceBasedFlipper {
 			if(match != null) {
 				firstMove = match.getPosition() + match.getLength();
 				if(firstMove != seq.getPosition()){
-					System.out.println("Found match with: " + FlipperUtils.toStringSequence(match, pStack));				
+					System.out.println("Found two part move match with: " + match);
 					System.out.println("First Move: " + firstMove + ", second move will be at " + seq.getPosition());
 					List<Integer> moves = new ArrayList<Integer>();
 					moves.add(firstMove);
@@ -131,13 +127,13 @@ public class SequenceBasedFlipper {
 		
 		// Spot three move solutions
 		// Bottom to top matches
-		System.out.println("Looking for 3 move solutions");
-		List<List<Integer>> tripleMoveFlips = new ArrayList<List<Integer>>();
+		System.out.println("----- Looking for 3 move solutions");
+//		List<List<Integer>> tripleMoveFlips = new ArrayList<List<Integer>>();
 		for(PancakeSequence seq: pStack.getSequences()){
 			System.out.println("Bottom: " + seq.getBottomSize());
 			match = pStack.getSequenceWithTopSizeDeltaOne(seq.getBottomSize());
 			if(match != null && match != seq){
-				System.out.println("Found match with: " + FlipperUtils.toStringSequence(match, pStack));
+				System.out.println("Found three part move match with: " + match);
 				int firstMove = seq.getPosition() + seq.getLength();
 				System.out.println("Stack before first flip: " + pStack);
 				pStack.flip(pStack.size() - firstMove);
@@ -163,12 +159,41 @@ public class SequenceBasedFlipper {
 			}
 		}
 		
+		System.out.println("----- Looking for move to base solutions");
+		for(PancakeSequence seq: pStack.getSequences()){
+			System.out.println("Bottom: " + seq.getBottomSize());
+			match = seq;
+			if(seq.getBottomSize() == pStack.size() - 1){
+				System.out.println("Found move to base action: " + match);
+				int firstMove = seq.getPosition() + seq.getLength();
+				flip(pStack, firstMove);
+				
+				int secondMove = match.getLength();
+				flip(pStack, secondMove);
+				
+				int thirdMove = pStack.size();
+				flip(pStack, thirdMove);
+				pStack.mergeSequences(seq, match);
+				
+//				System.exit(0);
+				return true;
+			}
+		}
+		
 		return false;
+	}
+	
+	public void flip(SequencedPancakeStack pStack, int flipPosition) {
+		System.out.println("Stack before flip: " + pStack);
+		pStack.flip(pStack.size() - flipPosition);
+		pStack.flipSequences(flipPosition);
+		recordMessage("No." + pStack.getFlipCount() + " " + pStack);
+		System.out.println("Stack after flip: " + pStack);
 	}
 	
 	public static void main(String[] args) {
 		SequenceBasedFlipper flipper = new SequenceBasedFlipper();
-		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(1, 0, 3, 2));
+		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(3, 4, 0, 1, 2));
 		
 //		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(0, 1, 2, 4, 3));
 //		pStack.createSequences();
