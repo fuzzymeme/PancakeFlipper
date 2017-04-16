@@ -36,7 +36,7 @@ Now the five is in the correct position and you can move on to correctly positio
 
 After some time I felt that the a better algorithm could be written that would improve on 2n. So I wrote a couple of test programs to test my ideas. This repo is one of those ideas. It's still O(n), but closer to n moves than 2n moves, and that is important.
 
-I'm not sure when I first wrote this. It has a time stamp back in Oct 2014, but it may have been start long before then. I think it's about time I cleaned it up a little/lot and finished it off - not to production quality, but good enough to demonstrate the idea. 
+I'm not sure when I first wrote this. It has a time stamp back in Oct 2014, but I may have been started long before then. I think it's about time I cleaned it up a little/lot and finished it off - not to production quality, but good enough to demonstrate the idea. 
 
 
 
