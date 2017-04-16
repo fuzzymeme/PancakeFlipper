@@ -31,9 +31,6 @@ public class SequenceBasedFlipper {
 			complete = pStack.isCorrectlyStacked();
 			System.out.println("Completeness: " + complete);
 			
-//			if(i > 3){
-//				System.exit(0);
-//			}
 			i++;
 		}
 
@@ -42,7 +39,9 @@ public class SequenceBasedFlipper {
 			showMessages();
 		}
 		else{
+			System.out.println("***************************");
 			System.out.println("Flipping failed to complete");
+			System.out.println("***************************");
 			System.out.println("Stack: " + pStack);
 			showMessages();
 			System.exit(0);
@@ -102,28 +101,31 @@ public class SequenceBasedFlipper {
 			System.out.println("Top: " + seq.getTopSize());
 			match = pStack.getSequenceWithTopSizeDeltaOne(seq.getTopSize());
 			
-			int firstMove = match.getPosition() + match.getLength();
-			if(match != null && firstMove != seq.getPosition()){
-				System.out.println("Found match with: " + FlipperUtils.toStringSequence(match, pStack));				
-				System.out.println("First Move: " + firstMove + ", second move will be at " + seq.getPosition());
-				List<Integer> moves = new ArrayList<Integer>();
-				moves.add(firstMove);
-//				moves.add(secondMove);
-				doubleMoveFlips.add(moves);
-				System.out.println("Stack before first flip: " + pStack);
-				pStack.flip(pStack.size() - firstMove);
-				pStack.flipSequences(firstMove);
-				recordMessage("No." + pStack.getFlipCount() + " " + pStack);
-				System.out.println("Stack after first flip: " + pStack);
-//				pStack.mergeSequences(seq, match);
-				int secondMove = seq.getPosition();
-				System.out.println("Second Move: " + secondMove);
-				pStack.flip(pStack.size() - secondMove);
-				pStack.flipSequences(secondMove);
-				pStack.mergeSequences(seq, match);
-				recordMessage("No." + pStack.getFlipCount() + " " + pStack);
-				System.out.println("Stack after second flip: " + pStack);
-				return true;
+			int firstMove;
+			if(match != null) {
+				firstMove = match.getPosition() + match.getLength();
+				if(firstMove != seq.getPosition()){
+					System.out.println("Found match with: " + FlipperUtils.toStringSequence(match, pStack));				
+					System.out.println("First Move: " + firstMove + ", second move will be at " + seq.getPosition());
+					List<Integer> moves = new ArrayList<Integer>();
+					moves.add(firstMove);
+					//				moves.add(secondMove);
+					doubleMoveFlips.add(moves);
+					System.out.println("Stack before first flip: " + pStack);
+					pStack.flip(pStack.size() - firstMove);
+					pStack.flipSequences(firstMove);
+					recordMessage("No." + pStack.getFlipCount() + " " + pStack);
+					System.out.println("Stack after first flip: " + pStack);
+					//				pStack.mergeSequences(seq, match);
+					int secondMove = seq.getPosition();
+					System.out.println("Second Move: " + secondMove);
+					pStack.flip(pStack.size() - secondMove);
+					pStack.flipSequences(secondMove);
+					pStack.mergeSequences(seq, match);
+					recordMessage("No." + pStack.getFlipCount() + " " + pStack);
+					System.out.println("Stack after second flip: " + pStack);
+					return true;
+				}
 			}
 		}
 		
