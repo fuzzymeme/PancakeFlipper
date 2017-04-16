@@ -74,6 +74,30 @@ public class PancakeSequence {
 
 	@Override
 	public String toString() {
+		
+		if(bottomSize > topSize) {
+			delta = DeltaSize.DECREASING;
+		} else if(bottomSize < topSize) {
+			delta = DeltaSize.INCREASING;
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("(");
+		
+		if(delta == DeltaSize.DECREASING) {
+			for(int i = bottomSize; i >= topSize; i--){
+				buffer.append(i).append(" ");
+			}
+			return buffer.toString().trim() + ")";
+		}
+		
+		if(delta == DeltaSize.INCREASING) {
+			for(int i = bottomSize; i <= topSize; i++){
+				buffer.append(i).append(" ");
+			}
+			return buffer.toString().trim() + ")";
+		}
+		
 		return "PancakeSequence [position=" + position + ", bottomSize="
 				+ bottomSize + ", topSize=" + topSize + ", deltaSize="
 				+ delta + "]";
