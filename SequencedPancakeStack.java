@@ -120,11 +120,7 @@ public class SequencedPancakeStack extends PancakeStack{
 		System.out.println("Flip Pos: " + flipPosition);
 		for(PancakeSequence seq: seqs){
 			if(seq.getPosition() + seq.getLength() <= flipPosition){
-				System.out.println("Need to flip: " + seq + " (length: " + seq.getLength() + ") topPos: " + 
-					(seq.getPosition() + seq.getLength()));
-//				System.out.println("Before Flip: " + seq);
 				seq.flip(flipPosition);
-				System.out.println("After Flip: " + seq);
 			}
 		}
 	}
