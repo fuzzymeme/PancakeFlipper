@@ -163,8 +163,8 @@ public class SequenceBasedFlipper {
 		for(PancakeSequence seq: pStack.getSequences()){
 			System.out.println("Bottom: " + seq.getBottomSize());
 			match = seq;
-			if(seq.getBottomSize() == pStack.size() - 1){
-				System.out.println("Found 3 move to base action: " + match);
+			if(seq.getBottomSize() == pStack.size() - 1 && !seqOnBase(seq, pStack.size())){
+				System.out.println("Found 3 move to base: " + match);
 				int firstMove = seq.getPosition() + seq.getLength();
 				flip(pStack, firstMove);
 				
@@ -195,6 +195,10 @@ public class SequenceBasedFlipper {
 
 		
 		return false;
+	}
+	
+	public boolean seqOnBase(PancakeSequence seq, int stackSize) {
+		return seq.getPosition() + seq.getLength() == stackSize;
 	}
 	
 	public void flipAndMerge(SequencedPancakeStack pStack, int flipPosition, PancakeSequence seq, PancakeSequence match) {
