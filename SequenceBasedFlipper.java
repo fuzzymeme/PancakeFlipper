@@ -57,16 +57,14 @@ public class SequenceBasedFlipper {
 			return true;
 		}
 		
-		// Spot any one move solutions
-		List<Integer> singleMoveFlips = new ArrayList<Integer>();
+		// Spot any single move solutions
 		PancakeSequence match;
 		PancakeSequence topSeq = pStack.getTopSequence();
 		System.out.println("Bottom: " + topSeq.getBottomSize());
 		match = pStack.getSequenceWithBottomSizeDeltaOne(topSeq.getBottomSize());
 		if(match != null){
 			System.out.println("Found single part move match with: " + match);
-			singleMoveFlips.add(pStack.size() - match.getPosition());
-			// TODO can drop out here as it can only flip once before having to recalculate
+
 			System.out.println("Before flip: " + pStack);
 			int moveIndex = match.getPosition();
 			flip(pStack, moveIndex);
