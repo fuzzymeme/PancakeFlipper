@@ -25,6 +25,13 @@ public class SequenceBasedFlipperTests {
 		assertEquals(3, getFlipCountForStack(0, 1, 3, 2, 4));
 	}
 
+	@Test
+	public void test_GivenExamples() {
+		assertEquals(1, getFlipCountForStack(3, 2, 1, 0, 4));
+		assertEquals(1, getFlipCountForStack(2, 1, 0, 3, 4));
+		assertEquals(1, getFlipCountForStack(1, 0, 2, 3, 4));
+	}
+
 	// Helper
 	private int getFlipCountForStack(Integer...a) {		
 		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(a));		
