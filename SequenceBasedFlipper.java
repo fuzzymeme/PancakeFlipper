@@ -58,19 +58,14 @@ public class SequenceBasedFlipper {
 		}
 		
 		// Spot any single move solutions
-		PancakeSequence match;
 		PancakeSequence topSeq = pStack.getTopSequence();
 		System.out.println("Bottom: " + topSeq.getBottomSize());
-		match = pStack.getSequenceWithBottomSizeDeltaOne(topSeq.getBottomSize());
+		PancakeSequence match = pStack.getSequenceWithBottomSizeDeltaOne(topSeq.getBottomSize());
 		if(match != null){
 			System.out.println("Found single part move match with: " + match);
 
-			System.out.println("Before flip: " + pStack);
 			int moveIndex = match.getPosition();
-			flip(pStack, moveIndex);
-
-			pStack.mergeSequences(topSeq, match);
-			System.out.println("After merge: " + pStack);
+			flipAndMerge(pStack, moveIndex, topSeq, match);
 
 			return true;
 		}
@@ -94,10 +89,10 @@ public class SequenceBasedFlipper {
 
 					doubleMoveFlips.add(moves);
 
-					flip(pStack, firstMove);
+					flipWithRecord(pStack, firstMove);
 
 					int secondMove = seq.getPosition();
-					flip(pStack, secondMove);
+					flipWithRecord(pStack, secondMove);
 					pStack.mergeSequences(seq, match);
 					return true;
 				}
@@ -113,10 +108,10 @@ public class SequenceBasedFlipper {
 			if(match != null && match != seq){
 				System.out.println("Found three part move match with: " + match);
 				int firstMove = seq.getPosition() + seq.getLength();
-				flip(pStack, firstMove);
+				flipWithRecord(pStack, firstMove);
 				
 				int secondMove = pStack.size();
-				flip(pStack, secondMove);
+				flipWithRecord(pStack, secondMove);
 				
 				int thirdMove = match.getLength();
 				flipAndMerge(pStack, thirdMove, seq, match);
@@ -131,10 +126,10 @@ public class SequenceBasedFlipper {
 			if(seq.getBottomSize() == pStack.size() - 1 && !seqOnBase(seq, pStack.size())){
 				System.out.println("Found 3 move to base: " + match);
 				int firstMove = seq.getPosition() + seq.getLength();
-				flip(pStack, firstMove);
+				flipWithRecord(pStack, firstMove);
 				
 				int secondMove = match.getLength();
-				flip(pStack, secondMove);
+				flipWithRecord(pStack, secondMove);
 				
 				int thirdMove = pStack.size();
 				flipAndMerge(pStack, thirdMove, seq, match);
@@ -150,10 +145,10 @@ public class SequenceBasedFlipper {
 		if(seq.getTopSize() == pStack.size() - 1){
 			System.out.println("Found 2 move to base action: " + match);
 			int firstMove = seq.getLength();
-			flip(pStack, firstMove);
+			flipWithRecord(pStack, firstMove);
 
 			int secondMove = pStack.size();
-			flip(pStack, secondMove);
+			flipWithRecord(pStack, secondMove);
 			
 			return true;
 		}
@@ -168,19 +163,24 @@ public class SequenceBasedFlipper {
 	public void flipAndMerge(SequencedPancakeStack pStack, int flipPosition, PancakeSequence seq, PancakeSequence match) {
 		flip(pStack, flipPosition);
 		pStack.mergeSequences(seq, match);
+		recordMessage("No." + pStack.getFlipCount() + " " + pStack);
 	}
 	
-	public void flip(SequencedPancakeStack pStack, int flipPosition) {
+	public void flipWithRecord(SequencedPancakeStack pStack, int flipPosition) {
+		flip(pStack, flipPosition);
+		recordMessage("No." + pStack.getFlipCount() + " " + pStack);
+	}
+	
+	public void flip(SequencedPancakeStack pStack, int flipPosition) {		
 		System.out.println("Stack before flip: " + pStack);
 		pStack.flip(pStack.size() - flipPosition);
 		pStack.flipSequences(flipPosition);
-		recordMessage("No." + pStack.getFlipCount() + " " + pStack);
 		System.out.println("Stack after flip: " + pStack);
 	}
-	
+
 	public static void main(String[] args) {
 		SequenceBasedFlipper flipper = new SequenceBasedFlipper();
-		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(0, 1, 3, 2, 4));
+		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(1, 0, 2, 3, 4));
 		
 		flipper.flipUntilCorrectlyStacked(pStack);
 	}
