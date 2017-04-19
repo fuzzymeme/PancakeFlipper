@@ -1,6 +1,8 @@
 package pancakeflipperrevisited;
 
+
 import java.util.List;
+import java.util.OptionalInt;
 
 public class FlipperBenchmarker {
 	
@@ -18,8 +20,11 @@ public class FlipperBenchmarker {
 			System.out.println("\n\n-------- New permutation ---------");
 			System.out.println(pStack);
 			System.out.println("----------------------------------");
-			
-			totalFlips += flipper.flipUntilCorrectlyStacked(pStack);
+
+			OptionalInt returnOptional = flipper.flipUntilCorrectlyStacked(pStack);
+			if(returnOptional.isPresent()) {
+				totalFlips += returnOptional.getAsInt();
+			}
 		}
 		
 		double averageFlips = (double) totalFlips / (double) permutations.size();

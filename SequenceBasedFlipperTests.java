@@ -34,8 +34,13 @@ public class SequenceBasedFlipperTests {
 
 	// Helper
 	private int getFlipCountForStack(Integer...a) {		
-		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(a));		
-		return flipper.flipUntilCorrectlyStacked(pStack);
+		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(a));	
+		
+		OptionalInt returnOptional = flipper.flipUntilCorrectlyStacked(pStack);
+		if(!returnOptional.isPresent()) {
+			fail("Couldn't find a solution for " + a);
+		}
+		return returnOptional.getAsInt();
 	}
 
 }

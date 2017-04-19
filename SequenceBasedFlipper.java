@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 import static pancakeflipperrevisited.Recorder.*;
 
 public class SequenceBasedFlipper {
 
-	public int flipUntilCorrectlyStacked(SequencedPancakeStack pStack) {
+	public OptionalInt flipUntilCorrectlyStacked(SequencedPancakeStack pStack) {
 
 		clearMessages();
 		recordMessage("No." + pStack.getFlipCount() + " " + pStack);
@@ -26,6 +28,9 @@ public class SequenceBasedFlipper {
 			System.out.println("Completeness: " + complete);
 			
 			i++;
+//			if(i > 1) {
+//				System.exit(0);
+//			}
 		}
 
 		if(complete){
@@ -38,10 +43,10 @@ public class SequenceBasedFlipper {
 			System.out.println("***************************");
 			System.out.println("Stack: " + pStack);
 			showMessages();
-			return Integer.MAX_VALUE;
+			return OptionalInt.empty();
 		}
 
-		return pStack.getFlipCount();
+		return OptionalInt.of(pStack.getFlipCount());
 	}
 	
 	private boolean makeNextFlip(SequencedPancakeStack pStack) {
