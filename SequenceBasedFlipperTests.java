@@ -202,7 +202,6 @@ public class SequenceBasedFlipperTests {
 		expectedStack.addSequence(0, 2, 4);
 		expectedStack.setFlipCount(1);
 				
-		PancakeSequence seq = flipper.getMatchForCaseSingleToBase(pStack);
 		flipper.flipForCaseSingleToBase(pStack);
 
 		assertEquals(expectedStack, pStack);
@@ -351,18 +350,18 @@ public class SequenceBasedFlipperTests {
 		assertEquals(3, getFlipCountForStack(0, 1, 3, 2, 4));
 	}
 
-//	@Test
-//	public void test_GivenExample_WhenAskedForFlipCount_ThenReturnsTheExpectedCount() {
-//		assertEquals(1, getFlipCountForStack(3, 2, 1, 0, 4));
-//		assertEquals(1, getFlipCountForStack(2, 1, 0, 3, 4));
-//		assertEquals(1, getFlipCountForStack(1, 0, 2, 3, 4));
-//		assertEquals(4, getFlipCountForStack(1, 0, 2, 4, 3));
-//		assertEquals(4, getFlipCountForStack(0, 1, 4, 5, 2, 3));
-//		assertEquals(4, getFlipCountForStack(2, 1, 0, 4, 3, 5));
-//		assertEquals(7, getFlipCountForStack(0, 4, 1, 5, 3, 2));
-//		assertEquals(6, getFlipCountForStack(1, 4, 0, 5, 3, 2));
-//		assertEquals(6, getFlipCountForStack(0, 2, 1, 5, 6, 4, 3));
-//	}
+	@Test
+	public void test_GivenExample_WhenAskedForFlipCount_ThenReturnsTheExpectedCount() {
+		assertEquals(1, getFlipCountForStack(3, 2, 1, 0, 4));
+		assertEquals(1, getFlipCountForStack(2, 1, 0, 3, 4));
+		assertEquals(1, getFlipCountForStack(1, 0, 2, 3, 4));
+		assertEquals(4, getFlipCountForStack(1, 0, 2, 4, 3));
+		assertEquals(4, getFlipCountForStack(0, 1, 4, 5, 2, 3));
+		assertEquals(4, getFlipCountForStack(2, 1, 0, 4, 3, 5));
+		assertEquals(7, getFlipCountForStack(0, 4, 1, 5, 3, 2));
+		assertEquals(6, getFlipCountForStack(1, 4, 0, 5, 3, 2));
+		assertEquals(7, getFlipCountForStack(0, 2, 1, 5, 6, 4, 3));
+	}
 	
 	@Test
 	public void test_GivenTwoEqualStacks_WhenEqualsCalled_ThenReturnsTrue() {
