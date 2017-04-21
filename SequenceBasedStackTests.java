@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-public class SequenceBasedStackTester {
+public class SequenceBasedStackTests {
 
 	@Test
 	public void test() {
