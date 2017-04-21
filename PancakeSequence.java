@@ -115,13 +115,7 @@ public class PancakeSequence {
 
 	@Override
 	public String toString() {
-		
-		if(bottomSize > topSize) {
-			delta = DeltaSize.DECREASING;
-		} else if(bottomSize < topSize) {
-			delta = DeltaSize.INCREASING;
-		}
-		
+				
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("(");
 		
