@@ -83,6 +83,37 @@ public class PancakeSequence {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + bottomSize;
+		result = prime * result + ((delta == null) ? 0 : delta.hashCode());
+		result = prime * result + position;
+		result = prime * result + topSize;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PancakeSequence other = (PancakeSequence) obj;
+		if (bottomSize != other.bottomSize)
+			return false;
+		if (delta != other.delta)
+			return false;
+		if (position != other.position)
+			return false;
+		if (topSize != other.topSize)
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		
 		if(bottomSize > topSize) {
@@ -106,6 +137,10 @@ public class PancakeSequence {
 				buffer.append(i).append(" ");
 			}
 			return buffer.toString().trim() + ")";
+		}
+		
+		if(getLength() == 1) {
+			return ("(" + getTopSize() + ")");
 		}
 		
 		return "PancakeSequence [position=" + position + ", bottomSize="
