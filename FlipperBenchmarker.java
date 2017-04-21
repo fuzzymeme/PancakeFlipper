@@ -14,7 +14,7 @@ public class FlipperBenchmarker {
 		
 		PermutationGenerator permGenerator = new PermutationGenerator();
 		List<List<Integer>> permutations = permGenerator.getAllPermutations(length);
-		CounterMap<Integer> counterMap = new CounterMap<Integer>();
+		CounterMap<Integer> individualFlipCounts = new CounterMap<Integer>();
 		List<SequencedPancakeStack> difficultSequences = new ArrayList<>();
 				
 		int totalFlips = 0, failures = 0, successes = 0, longest = 0;
@@ -30,13 +30,15 @@ public class FlipperBenchmarker {
 			OptionalInt returnOptional = flipper.flipUntilCorrectlyStacked(pStack);
 			if(returnOptional.isPresent()) {
 				int flipCount = returnOptional.getAsInt();
-				counterMap.inc(flipCount);
+				individualFlipCounts.inc(flipCount);
 				totalFlips += flipCount;
+				
 				if(flipCount > longest) {
 					longest = flipCount;
+					difficultSequences.clear();
 				}
 				
-				if(flipCount == 15) {
+				if(flipCount == longest) {
 					difficultSequences.add(new SequencedPancakeStack(permutation));
 				}
 				successes++;
@@ -53,16 +55,16 @@ public class FlipperBenchmarker {
 		long elapsed = after - before;
 		System.out.println("Elapsed (clock) time: " + ((double) elapsed / 1000.0));
 		System.out.println("Longest: " + longest);
-		System.out.println("CounterMap:\n" + CounterMapUtils.toPrettyPrintString(counterMap));
+		System.out.println("CounterMap:\n" + CounterMapUtils.toPrettyPrintString(individualFlipCounts));
 		
-		System.out.println("Difficult: " + difficultSequences);
-				
+		System.out.println("difficultSequences: " + difficultSequences);
+					
 	}
 	
 	public static void main(String[] args) {
 		
 		FlipperBenchmarker benchmarker = new FlipperBenchmarker();
-		benchmarker.runAllAgainstPilesOfLength(8);
+		benchmarker.runAllAgainstPilesOfLength(7);
 	}
 
 }
