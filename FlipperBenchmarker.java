@@ -46,17 +46,16 @@ public class FlipperBenchmarker {
 				failures++;
 			}
 		}
-		
-		double averageFlips = (double) totalFlips / (double) permutations.size();
-		
-		System.out.println("Total flips: " + totalFlips + ", average: " + averageFlips + ", failures: " + failures + ", successes: " + successes);
-		
+
 		long after = System.currentTimeMillis();
 		long elapsed = after - before;
+
+		double averageFlips = (double) totalFlips / (double) permutations.size();
+		
+		System.out.println("Total flips: " + totalFlips + ", average: " + averageFlips + ", failures: " + failures + ", successes: " + successes);		
 		System.out.println("Elapsed (clock) time: " + ((double) elapsed / 1000.0));
 		System.out.println("Longest: " + longest);
-		System.out.println("CounterMap:\n" + CounterMapUtils.toPrettyPrintString(individualFlipCounts));
-		
+		System.out.println("CounterMap:\n" + CounterMapUtils.toPrettyPrintString(individualFlipCounts));		
 		System.out.println("difficultSequences: " + difficultSequences);
 					
 	}
