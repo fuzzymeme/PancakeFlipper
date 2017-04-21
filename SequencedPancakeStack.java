@@ -126,6 +126,31 @@ public class SequencedPancakeStack extends PancakeStack{
 	}
 	
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((seqs == null) ? 0 : seqs.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SequencedPancakeStack other = (SequencedPancakeStack) obj;
+		if (seqs == null) {
+			if (other.seqs != null)
+				return false;
+		} else if (!seqs.equals(other.seqs))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		
 		// TODO Should (??) print out in order of position, or better re-order when flipped
