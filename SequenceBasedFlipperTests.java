@@ -427,7 +427,7 @@ public class SequenceBasedFlipperTests {
 
 	// Helper
 	private int getFlipCountForStack(Integer...a) {		
-		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(a));	
+		SequencedPancakeStack pStack = new SequencedPancakeStack(a);	
 		
 		OptionalInt returnOptional = flipper.flipUntilCorrectlyStacked(pStack);
 		if(!returnOptional.isPresent()) {

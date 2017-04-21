@@ -369,7 +369,7 @@ public class SequenceBasedFlipper {
 	
 	public static void main(String[] args) {
 		SequenceBasedFlipper flipper = new SequenceBasedFlipper();
-		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(1, 3, 5, 0, 4, 6, 2));
+		SequencedPancakeStack pStack = new SequencedPancakeStack(1, 3, 5, 0, 4, 6, 2);
 		
 		flipper.flipUntilCorrectlyStacked(pStack);
 	}

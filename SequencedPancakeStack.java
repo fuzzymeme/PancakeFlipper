@@ -1,6 +1,7 @@
 package pancakeflipperrevisited;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pancakeflipperrevisited.PancakeSequence.DeltaSize;
@@ -15,6 +16,11 @@ public class SequencedPancakeStack extends PancakeStack{
 	
 	public SequencedPancakeStack(List<Integer> initialStack){
 		super(initialStack);
+		createSequences();
+	}
+	
+	public SequencedPancakeStack(Integer... initialStack){
+		super(Arrays.asList(initialStack));
 		createSequences();
 	}
 	
