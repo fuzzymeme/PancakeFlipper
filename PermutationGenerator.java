@@ -6,12 +6,10 @@ import java.util.List;
 
 public class PermutationGenerator {
 
-	private int count = 0;
 	private int[] original;
 	private List<List<Integer>> permutations;
 
 	public List<List<Integer>> getAllPermutations(int len) {
-		count = 0;
 		permutations = new ArrayList<List<Integer>>();
 		original = getOrg(len);
 		permute(0, new LinkedList<Integer>(), new boolean[original.length]);
@@ -24,7 +22,6 @@ public class PermutationGenerator {
 		
 		if (level == length) {
 			permutations.add(permedList);
-			count++;
 		} else {
 			for (int i = 0; i < length; i++) {
 				if (!used[i]) {
@@ -47,16 +44,5 @@ public class PermutationGenerator {
 		}
 		return org;
 	}
-
-	public static void main(String[] args) {
-
-		PermutationGenerator pg = new PermutationGenerator();
-//		String s = "0123";
-		pg.getAllPermutations(5);
-		System.out.println("Count:" + pg.count);
-		
-		System.out.println("Perms: " + pg.permutations);
-	}
-
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PancakeStack {
 	
-	protected List<Integer> stack; // TODO Better private??
+	protected List<Integer> stack;
 	private int flipCount = 0; 	// TODO have outside the data structure 
 	
 	public PancakeStack(){
@@ -61,14 +61,7 @@ public class PancakeStack {
 		this.flipCount = newFlipCount;
 	}
 	
-//	protected void swap(int r, int s){
-//		int tmp = stack.get(r);
-//		stack.set(r, stack.get(s));
-//		stack.set(s, tmp);
-//	}
-	
 	private List<Integer> reverse(List<Integer> list){
-
 		Collections.reverse(list);
 		return list;
 	}
@@ -77,6 +70,7 @@ public class PancakeStack {
 		return stack.size();
 	}
 	
+	/* Is the other stack the same ignoring the flipCount */
 	public boolean stackEquals(List<Integer> other) {
 
 		if (other == null)

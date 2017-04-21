@@ -1,10 +1,7 @@
 package pancakeflipperrevisited;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.OptionalInt;
 
 import static pancakeflipperrevisited.Recorder.*;
