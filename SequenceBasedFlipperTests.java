@@ -6,6 +6,8 @@ import java.util.OptionalInt;
 
 import org.junit.Test;
 
+import pancakeflipperrevisited.utils.Pair;
+
 public class SequenceBasedFlipperTests {
 
 	private SequenceBasedFlipper flipper = new SequenceBasedFlipper();
@@ -53,9 +55,9 @@ public class SequenceBasedFlipperTests {
 		
 		PancakeSequence expectedSeq1 = new PancakeSequence(0, 0, 1);
 		PancakeSequence expectedSeq2 = new PancakeSequence(5, 2, 3);
-		SequencePair expectedSeqPair = new SequencePair(expectedSeq1, expectedSeq2);
+		Pair<PancakeSequence> expectedSeqPair = new Pair<>(expectedSeq1, expectedSeq2);
 		
-		SequencePair seqPair = flipper.getMatchForCase18(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase18(pStack);
 
 		assertEquals(expectedSeqPair, seqPair);
 	}
@@ -71,9 +73,9 @@ public class SequenceBasedFlipperTests {
 		
 		PancakeSequence expectedSeq1 = new PancakeSequence(0, 3, 2);
 		PancakeSequence expectedSeq2 = new PancakeSequence(5, 1, 0);
-		SequencePair expectedSeqPair = new SequencePair(expectedSeq1, expectedSeq2);
+		Pair<PancakeSequence> expectedSeqPair = new Pair<PancakeSequence>(expectedSeq1, expectedSeq2);
 		
-		SequencePair seqPair = flipper.getMatchForCase18(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase18(pStack);
 		
 		assertEquals(expectedSeqPair, seqPair);
 	}
@@ -124,9 +126,9 @@ public class SequenceBasedFlipperTests {
 		
 		PancakeSequence expectedSeq1 = new PancakeSequence(0, 0, 1);
 		PancakeSequence expectedSeq2 = new PancakeSequence(5, 3, 2);
-		SequencePair expectedSeqPair = new SequencePair(expectedSeq1, expectedSeq2);
+		Pair<PancakeSequence> expectedSeqPair = new Pair<PancakeSequence>(expectedSeq1, expectedSeq2);
 		
-		SequencePair seqPair = flipper.getMatchForCase26(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase26(pStack);
 
 		assertEquals(expectedSeqPair, seqPair);
 	}
@@ -143,9 +145,9 @@ public class SequenceBasedFlipperTests {
 		
 		PancakeSequence expectedSeq1 = new PancakeSequence(0, 3, 2);
 		PancakeSequence expectedSeq2 = new PancakeSequence(5, 0, 1);
-		SequencePair expectedSeqPair = new SequencePair(expectedSeq1, expectedSeq2);
+		Pair<PancakeSequence> expectedSeqPair = new Pair<PancakeSequence>(expectedSeq1, expectedSeq2);
 		
-		SequencePair seqPair = flipper.getMatchForCase26(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase26(pStack);
 		
 		assertEquals(expectedSeqPair, seqPair);
 	}
@@ -161,9 +163,9 @@ public class SequenceBasedFlipperTests {
 		
 		PancakeSequence expectedSeq1 = new PancakeSequence(0, 1, 0);
 		PancakeSequence expectedSeq2 = new PancakeSequence(4, 3, 2);
-		SequencePair expectedSeqPair = new SequencePair(expectedSeq1, expectedSeq2);
+		Pair<PancakeSequence> expectedSeqPair = new Pair<PancakeSequence>(expectedSeq1, expectedSeq2);
 		
-		SequencePair seqPair = flipper.getMatchForCase45(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase45(pStack);
 
 		assertEquals(expectedSeqPair, seqPair);
 	}
@@ -179,9 +181,9 @@ public class SequenceBasedFlipperTests {
 		
 		PancakeSequence expectedSeq1 = new PancakeSequence(0, 2, 3);
 		PancakeSequence expectedSeq2 = new PancakeSequence(4, 0, 1);
-		SequencePair expectedSeqPair = new SequencePair(expectedSeq1, expectedSeq2);
+		Pair<PancakeSequence> expectedSeqPair = new Pair<PancakeSequence>(expectedSeq1, expectedSeq2);
 		
-		SequencePair seqPair = flipper.getMatchForCase45(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase45(pStack);
 
 		assertEquals(expectedSeqPair, seqPair);
 	}
@@ -222,7 +224,7 @@ public class SequenceBasedFlipperTests {
 		expectedStack.addSequence(3, 0, 3);
 		expectedStack.setFlipCount(2);
 		
-		SequencePair seqPair = flipper.getMatchForCase18(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase18(pStack);
 		flipper.flipForCase18(pStack, seqPair);
 		
 		assertEquals(expectedStack, pStack);
@@ -244,7 +246,7 @@ public class SequenceBasedFlipperTests {
 		expectedStack.addSequence(3, 3, 0);
 		expectedStack.setFlipCount(2);
 		
-		SequencePair seqPair = flipper.getMatchForCase18(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase18(pStack);
 		flipper.flipForCase18(pStack, seqPair);
 		
 		assertEquals(expectedStack, pStack);
@@ -266,7 +268,7 @@ public class SequenceBasedFlipperTests {
 		expectedStack.addSequence(3, 0, 3);
 		expectedStack.setFlipCount(2);
 		
-		SequencePair seqPair = flipper.getMatchForCase26(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase26(pStack);
 		flipper.flipForCase26(pStack, seqPair);
 		
 		assertEquals(expectedStack, pStack);
@@ -288,7 +290,7 @@ public class SequenceBasedFlipperTests {
 		expectedStack.addSequence(3, 3, 0);
 		expectedStack.setFlipCount(2);
 		
-		SequencePair seqPair = flipper.getMatchForCase26(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase26(pStack);
 		flipper.flipForCase26(pStack, seqPair);
 		
 		assertEquals(expectedStack, pStack);
@@ -308,7 +310,7 @@ public class SequenceBasedFlipperTests {
 		expectedStack.addSequence(2, 3, 0);
 		expectedStack.setFlipCount(3);
 		
-		SequencePair seqPair = flipper.getMatchForCase45(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase45(pStack);
 		flipper.flipForCase45(pStack, seqPair);
 		
 		assertEquals(expectedStack, pStack);
@@ -328,7 +330,7 @@ public class SequenceBasedFlipperTests {
 		expectedStack.addSequence(2, 3, 0);
 		expectedStack.setFlipCount(3);
 		
-		SequencePair seqPair = flipper.getMatchForCase45(pStack);
+		Pair<PancakeSequence> seqPair = flipper.getMatchForCase45(pStack);
 		flipper.flipForCase45(pStack, seqPair);
 		
 		assertEquals(expectedStack, pStack);

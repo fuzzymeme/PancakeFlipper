@@ -1,8 +1,8 @@
 package pancakeflipperrevisited;
 
-import java.util.Arrays;
-
 import java.util.OptionalInt;
+
+import pancakeflipperrevisited.utils.Pair;
 
 import static pancakeflipperrevisited.Recorder.*;
 
@@ -72,7 +72,7 @@ public class SequenceBasedFlipper {
 		}
 		
 		// Two move solutions case 18
-		SequencePair seqPair = getMatchForCase18(pStack);
+		Pair<PancakeSequence> seqPair = getMatchForCase18(pStack);
 		if(seqPair != null){
 //			System.out.println("getMatchForCase18");
 			flipForCase18(pStack, seqPair);
@@ -261,48 +261,48 @@ public class SequenceBasedFlipper {
 		return match;
 	}
 	
-	public SequencePair getMatchForCase18(SequencedPancakeStack pStack) {
+	public Pair<PancakeSequence> getMatchForCase18(SequencedPancakeStack pStack) {
 		
 		for(PancakeSequence seq: pStack.getSequences()){
 			PancakeSequence match = pStack.getSequenceWithTopToBottomSizeDeltaOne(seq);
 			if(match != null) {
 //				System.out.println("Pos: " + seq.getPosition() + " and " + match.getPosition());
 				if(seq.getPosition() < match.getPosition()) {
-					return new SequencePair(seq, match);
+					return new Pair<PancakeSequence>(seq, match);
 				} else {
-					return new SequencePair(match, seq);					
+					return new Pair<PancakeSequence>(match, seq);					
 				}				
 			}
 		}
 		return null;
 	}
 	
-	public SequencePair getMatchForCase26(SequencedPancakeStack pStack) {
+	public Pair<PancakeSequence> getMatchForCase26(SequencedPancakeStack pStack) {
 		
 		for(PancakeSequence seq: pStack.getSequences()){
 			PancakeSequence match = pStack.getSequenceWithTopToTopSizeDeltaOne(seq);
 			if(match != null) {
 //				System.out.println("Pos: " + seq.getPosition() + " and " + match.getPosition());
 				if(seq.getPosition() < match.getPosition()) {
-					return new SequencePair(seq, match);
+					return new Pair<PancakeSequence>(seq, match);
 				} else {
-					return new SequencePair(match, seq);					
+					return new Pair<PancakeSequence>(match, seq);					
 				}				
 			}
 		}
 		return null;
 	}
 	
-	public SequencePair getMatchForCase45(SequencedPancakeStack pStack) {
+	public Pair<PancakeSequence> getMatchForCase45(SequencedPancakeStack pStack) {
 		
 		for(PancakeSequence seq: pStack.getSequences()){
 			PancakeSequence match = pStack.getSequenceWithBottomToTopSizeDeltaOne(seq);
 			if(match != null) {
 //				System.out.println("Pos: " + seq.getPosition() + " and " + match.getPosition());
 				if(seq.getPosition() < match.getPosition()) {
-					return new SequencePair(seq, match);
+					return new Pair<PancakeSequence>(seq, match);
 				} else {
-					return new SequencePair(match, seq);					
+					return new Pair<PancakeSequence>(match, seq);					
 				}				
 			}
 		}
@@ -320,27 +320,26 @@ public class SequenceBasedFlipper {
 		flipAndMerge(pStack, moveIndex, topSeq, lowerSeq);
 	}
 
-	public void flipForCase18(SequencedPancakeStack pStack, SequencePair seqPair) {
-		PancakeSequence upperSeq = seqPair.seq1;
-		PancakeSequence lowerSeq = seqPair.seq2;
+	public void flipForCase18(SequencedPancakeStack pStack, Pair<PancakeSequence> seqPair) {
+		PancakeSequence upperSeq = seqPair.getOne();
+		PancakeSequence lowerSeq = seqPair.getOther();
 		int moveIndex = upperSeq.getPosition() + upperSeq.getLength();
 		flipWithRecord(pStack, moveIndex);
 		
 		flipForCase37(pStack, lowerSeq);
 	}
 	
-	public void flipForCase26(SequencedPancakeStack pStack, SequencePair seqPair) {
-		PancakeSequence upperSeq = seqPair.seq1;
-		PancakeSequence lowerSeq = seqPair.seq2;
+	public void flipForCase26(SequencedPancakeStack pStack, Pair<PancakeSequence> seqPair) {
+		PancakeSequence upperSeq = seqPair.getOne();
+		PancakeSequence lowerSeq = seqPair.getOther();
 		int moveIndex = lowerSeq.getPosition() + lowerSeq.getLength();
 		flipWithRecord(pStack, moveIndex);
 		
 		flipForCase37(pStack, upperSeq);
 	}
 	
-	public void flipForCase45(SequencedPancakeStack pStack, SequencePair seqPair) {
-		PancakeSequence upperSeq = seqPair.seq1;
-		PancakeSequence lowerSeq = seqPair.seq2;
+	public void flipForCase45(SequencedPancakeStack pStack, Pair<PancakeSequence> seqPair) {
+		PancakeSequence upperSeq = seqPair.getOne();
 		int moveIndex = upperSeq.getPosition() + upperSeq.getLength();
 		flipWithRecord(pStack, moveIndex);
 		
@@ -373,54 +372,4 @@ public class SequenceBasedFlipper {
 		
 		flipper.flipUntilCorrectlyStacked(pStack);
 	}
-}
-
-class SequencePair {
-
-	PancakeSequence seq1;
-	PancakeSequence seq2;
-	
-	public SequencePair(PancakeSequence seq1, PancakeSequence seq2) {
-		this.seq1 = seq1;
-		this.seq2 = seq2;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((seq1 == null) ? 0 : seq1.hashCode());
-		result = prime * result + ((seq2 == null) ? 0 : seq2.hashCode());
-		return result;
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SequencePair other = (SequencePair) obj;
-		if (seq1 == null) {
-			if (other.seq1 != null)
-				return false;
-		} else if (!seq1.equals(other.seq1))
-			return false;
-		if (seq2 == null) {
-			if (other.seq2 != null)
-				return false;
-		} else if (!seq2.equals(other.seq2))
-			return false;
-		return true;
-	}
-
-
-	@Override
-	public String toString() {
-		return "SequencePair [seq1=" + seq1 + ", seq2=" + seq2 + "]";
-	}
-	
 }
