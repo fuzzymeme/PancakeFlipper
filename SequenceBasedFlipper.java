@@ -25,7 +25,6 @@ public class SequenceBasedFlipper {
 			flipSucceeded = makeNextFlip(pStack);
 			
 			complete = pStack.isCorrectlyStacked();
-			System.out.println("Completeness: " + complete);
 			
 			i++;
 //			if(i > 1) {
@@ -49,77 +48,181 @@ public class SequenceBasedFlipper {
 		return OptionalInt.of(pStack.getFlipCount());
 	}
 	
-	private boolean makeNextFlip(SequencedPancakeStack pStack) {
+	public boolean makeNextFlip(SequencedPancakeStack pStack) {
 		
-		System.out.println("---- makeNextFlip -----");
+//		System.out.println("---- makeNextFlip -----");
 
 		// If one seq that simply needs to be flipped
 		if(pStack.getSequenceCount() == 1){
-			System.out.println("Just need one flip to finish");
-			pStack.flip(0);
-			recordMessage("No." + pStack.getFlipCount() + " " + pStack);
-			System.out.println("After simple Flip: " + pStack);
+			flipWithRecord(pStack, pStack.size());
+			return true;
+		}
+		
+		// TODO Have a flip to base for when the highest number appears at the top. Reuse flipCase37
+		PancakeSequence match = getMatchForCaseSingleToBase(pStack);
+		if(match != null){
+//			System.out.println("getMatchForCaseSingleToBase");
+			flipForCaseSingleToBase(pStack);
 			return true;
 		}
 		
 		// Spot any single move solutions
-		PancakeSequence topSeq = pStack.getTopSequence();
-		System.out.println("Bottom: " + topSeq.getBottomSize());
-		PancakeSequence match = pStack.getSequenceWithBottomSizeDeltaOne(topSeq.getBottomSize());
+		match = getMatchForCase37(pStack);
 		if(match != null){
-			System.out.println("Found single part move match with: " + match);
-
-			int moveIndex = match.getPosition();
-			flipAndMerge(pStack, moveIndex, topSeq, match);
-
+//			System.out.println("getMatchForCase37");
+			flipForCase37(pStack, match);
+			return true;
+		}
+		
+		// Two move solutions case 18
+		SequencePair seqPair = getMatchForCase18(pStack);
+		if(seqPair != null){
+//			System.out.println("getMatchForCase18");
+			flipForCase18(pStack, seqPair);
+			return true;
+		}
+		
+		// Two move solutions case 26
+		seqPair = getMatchForCase26(pStack);
+		if(seqPair != null){
+//			System.out.println("getMatchForCase26");
+			flipForCase26(pStack, seqPair);
+			return true;
+		}
+		
+		// Three move solutions case 45
+		seqPair = getMatchForCase45(pStack);
+		if(seqPair != null){
+//			System.out.println("getMatchForCase45");
+			flipForCase45(pStack, seqPair);
 			return true;
 		}
 		
 		// Spot any two move solutions
-		System.out.println("----- Looking for two move solutions");
-		// TODO The sequences need to be ordered for this to work!!
-		List<List<Integer>> doubleMoveFlips = new ArrayList<List<Integer>>();
+/*		System.out.println("----- Looking for two move solutions v1");
+		PancakeSequence topSeq = pStack.getTopSequence();
+		System.out.println("Top: " + topSeq.getTopSize());
+		match = pStack.getSequenceWithTopToBottomSizeDeltaOne(topSeq);
+
+		int firstMove;
+		if(match != null) {
+			firstMove = topSeq.getPosition() + topSeq.getLength();
+			if(firstMove != topSeq.getPosition()){
+				System.out.println("Found two part move match with: " + topSeq + " and " + match);
+				System.out.println("First Move: " + firstMove + ", second move will be at " + topSeq.getPosition());
+				List<Integer> moves = new ArrayList<Integer>();
+				moves.add(firstMove);
+
+				flipWithRecord(pStack, firstMove);
+
+				int secondMove = match.getPosition();
+				flipWithRecord(pStack, secondMove);
+				pStack.mergeSequences(topSeq, match);
+				return true;
+			}
+		}
+		
+		System.out.println("----- Looking for two move solutions v2");
 		for(PancakeSequence seq: pStack.getSequences()){
+			
+			PancakeSequence seq1, seq2;
+			
 			System.out.println("Top: " + seq.getTopSize());
 			match = pStack.getSequenceWithTopSizeDeltaOne(seq.getTopSize());
 			
-			int firstMove;
 			if(match != null) {
-				firstMove = match.getPosition() + match.getLength();
-				if(firstMove != seq.getPosition()){
-					System.out.println("Found two part move match with: " + match);
-					System.out.println("First Move: " + firstMove + ", second move will be at " + seq.getPosition());
-					List<Integer> moves = new ArrayList<Integer>();
-					moves.add(firstMove);
+				
+				if(seq.getPosition() < match.getPosition()) {
+					seq1 = seq; seq2 = match;
+				} else {
+					seq2 = seq; seq1 = match;					
+				}
+				System.out.println("Found two part move match with: " + seq1 + " and " + seq2);
 
-					doubleMoveFlips.add(moves);
+				firstMove = seq2.getPosition() + seq2.getLength();
+				if(firstMove != seq1.getPosition()){
 
 					flipWithRecord(pStack, firstMove);
 
-					int secondMove = seq.getPosition();
+					int secondMove = seq1.getPosition();
 					flipWithRecord(pStack, secondMove);
-					pStack.mergeSequences(seq, match);
+					pStack.mergeSequences(seq1, seq2);
 					return true;
 				}
 			}
 		}
 		
+		System.out.println("----- Looking for two move solutions v3");
+		for(PancakeSequence seq: pStack.getSequences()){
+			
+			PancakeSequence seq1, seq2;
+			
+			System.out.println("Top: " + seq.getTopSize());
+			match = pStack.getSequenceWithTopToBottomSizeDeltaOne(seq);
+			
+			if(match != null) {
+				
+				if(seq.getPosition() < match.getPosition()) {
+					seq1 = seq; seq2 = match;
+				} else {
+					seq2 = seq; seq1 = match;					
+				}
+				System.out.println("Found match with: " + seq1 + " and " + seq2);
+
+				firstMove = seq1.getPosition() + seq1.getLength();
+				if(firstMove != seq1.getPosition()){
+
+					flipWithRecord(pStack, firstMove);
+
+					int secondMove = seq2.getPosition();
+					flipWithRecord(pStack, secondMove);
+					pStack.mergeSequences(seq1, seq2);
+					return true;
+				}
+			}
+		}
+
+		
+		System.out.println("----- Looking for 2 flip move to base solutions");
+		PancakeSequence firstSeq = pStack.getSequences().get(0);
+		System.out.println("Top: " + firstSeq.getTopSize());
+		match = firstSeq;
+		int firstMove = firstSeq.getPosition() + firstSeq.getLength();
+		int secondMove = pStack.size();
+		if(firstSeq.getTopSize() == pStack.size() - 1 && firstMove != secondMove){
+			System.out.println("Found 2 move to base action: " + match);
+			
+			flipWithRecord(pStack, firstMove);			
+			flipWithRecord(pStack, secondMove);
+			
+			return true;
+		}
+		
+		int firstMove, secondMove;
 		// Spot three move solutions
-		// Bottom to top matches
+		// Bottom to top matches		
 		System.out.println("----- Looking for 3 move solutions");
 		for(PancakeSequence seq: pStack.getSequences()){
 			System.out.println("Bottom: " + seq.getBottomSize());
 			match = pStack.getSequenceWithTopSizeDeltaOne(seq.getBottomSize());
 			if(match != null && match != seq){
-				System.out.println("Found three part move match with: " + match);
-				int firstMove = seq.getPosition() + seq.getLength();
+				
+				PancakeSequence seq1, seq2;
+				if(seq.getPosition() < match.getPosition()) {
+					seq1 = seq; seq2 = match;
+				} else {
+					seq2 = seq; seq1 = match;					
+				}
+				
+				System.out.println("Found three part move match with: " + seq1 + " and " +  seq2);
+				firstMove = seq1.getPosition() + seq1.getLength();
 				flipWithRecord(pStack, firstMove);
 				
-				int secondMove = pStack.size();
+				secondMove = seq2.getPosition() + seq2.getLength();
 				flipWithRecord(pStack, secondMove);
 				
-				int thirdMove = match.getLength();
-				flipAndMerge(pStack, thirdMove, seq, match);
+				int thirdMove = seq1.getPosition();
+				flipAndMerge(pStack, thirdMove, seq1, seq2);
 				return true;
 			}
 		}
@@ -130,10 +233,10 @@ public class SequenceBasedFlipper {
 			match = seq;
 			if(seq.getBottomSize() == pStack.size() - 1 && !seqOnBase(seq, pStack.size())){
 				System.out.println("Found 3 move to base: " + match);
-				int firstMove = seq.getPosition() + seq.getLength();
+				firstMove = seq.getPosition() + seq.getLength();
 				flipWithRecord(pStack, firstMove);
 				
-				int secondMove = match.getLength();
+				secondMove = match.getLength();
 				flipWithRecord(pStack, secondMove);
 				
 				int thirdMove = pStack.size();
@@ -142,25 +245,111 @@ public class SequenceBasedFlipper {
 				return true;
 			}
 		}
-		
-		System.out.println("----- Looking for 2 flip move to base solutions");
-		PancakeSequence seq = pStack.getSequences().get(0);
-		System.out.println("Top: " + seq.getTopSize());
-		match = seq;
-		if(seq.getTopSize() == pStack.size() - 1){
-			System.out.println("Found 2 move to base action: " + match);
-			int firstMove = seq.getLength();
-			flipWithRecord(pStack, firstMove);
-
-			int secondMove = pStack.size();
-			flipWithRecord(pStack, secondMove);
-			
-			return true;
-		}
-	
+		*/	
 		return false;
 	}
 	
+	public PancakeSequence getMatchForCaseSingleToBase(SequencedPancakeStack pStack) {
+		PancakeSequence topSeq = pStack.getTopSequence();
+				
+		if(topSeq.getBottomSize() == pStack.size() - 1) {
+			return topSeq;
+		}
+		return null;
+	}	
+	
+	public PancakeSequence getMatchForCase37(SequencedPancakeStack pStack) {
+		PancakeSequence topSeq = pStack.getTopSequence();
+		PancakeSequence match = pStack.getSequenceWithBottomSizeDeltaOne(topSeq.getBottomSize());
+		return match;
+	}
+	
+	public SequencePair getMatchForCase18(SequencedPancakeStack pStack) {
+		
+		for(PancakeSequence seq: pStack.getSequences()){
+			PancakeSequence match = pStack.getSequenceWithTopToBottomSizeDeltaOne(seq);
+			if(match != null) {
+//				System.out.println("Pos: " + seq.getPosition() + " and " + match.getPosition());
+				if(seq.getPosition() < match.getPosition()) {
+					return new SequencePair(seq, match);
+				} else {
+					return new SequencePair(match, seq);					
+				}				
+			}
+		}
+		return null;
+	}
+	
+	public SequencePair getMatchForCase26(SequencedPancakeStack pStack) {
+		
+		for(PancakeSequence seq: pStack.getSequences()){
+			PancakeSequence match = pStack.getSequenceWithTopToTopSizeDeltaOne(seq);
+			if(match != null) {
+//				System.out.println("Pos: " + seq.getPosition() + " and " + match.getPosition());
+				if(seq.getPosition() < match.getPosition()) {
+					return new SequencePair(seq, match);
+				} else {
+					return new SequencePair(match, seq);					
+				}				
+			}
+		}
+		return null;
+	}
+	
+	public SequencePair getMatchForCase45(SequencedPancakeStack pStack) {
+		
+		for(PancakeSequence seq: pStack.getSequences()){
+			PancakeSequence match = pStack.getSequenceWithBottomToTopSizeDeltaOne(seq);
+			if(match != null) {
+//				System.out.println("Pos: " + seq.getPosition() + " and " + match.getPosition());
+				if(seq.getPosition() < match.getPosition()) {
+					return new SequencePair(seq, match);
+				} else {
+					return new SequencePair(match, seq);					
+				}				
+			}
+		}
+		return null;
+	}
+	
+	public void flipForCaseSingleToBase(SequencedPancakeStack pStack) {
+		flipWithRecord(pStack, pStack.size());
+	}
+	
+	public void flipForCase37(SequencedPancakeStack pStack, PancakeSequence lowerSeq) {
+		PancakeSequence topSeq = pStack.getTopSequence();
+
+		int moveIndex = lowerSeq.getPosition();
+		flipAndMerge(pStack, moveIndex, topSeq, lowerSeq);
+	}
+
+	public void flipForCase18(SequencedPancakeStack pStack, SequencePair seqPair) {
+		PancakeSequence upperSeq = seqPair.seq1;
+		PancakeSequence lowerSeq = seqPair.seq2;
+		int moveIndex = upperSeq.getPosition() + upperSeq.getLength();
+		flipWithRecord(pStack, moveIndex);
+		
+		flipForCase37(pStack, lowerSeq);
+	}
+	
+	public void flipForCase26(SequencedPancakeStack pStack, SequencePair seqPair) {
+		PancakeSequence upperSeq = seqPair.seq1;
+		PancakeSequence lowerSeq = seqPair.seq2;
+		int moveIndex = lowerSeq.getPosition() + lowerSeq.getLength();
+		flipWithRecord(pStack, moveIndex);
+		
+		flipForCase37(pStack, upperSeq);
+	}
+	
+	public void flipForCase45(SequencedPancakeStack pStack, SequencePair seqPair) {
+		PancakeSequence upperSeq = seqPair.seq1;
+		PancakeSequence lowerSeq = seqPair.seq2;
+		int moveIndex = upperSeq.getPosition() + upperSeq.getLength();
+		flipWithRecord(pStack, moveIndex);
+		
+		flipForCase26(pStack, seqPair);
+	}
+
 	public boolean seqOnBase(PancakeSequence seq, int stackSize) {
 		return seq.getPosition() + seq.getLength() == stackSize;
 	}
@@ -177,16 +366,64 @@ public class SequenceBasedFlipper {
 	}
 	
 	public void flip(SequencedPancakeStack pStack, int flipPosition) {		
-		System.out.println("Stack before flip: " + pStack);
 		pStack.flip(pStack.size() - flipPosition);
 		pStack.flipSequences(flipPosition);
-		System.out.println("Stack after flip: " + pStack);
 	}
-
+	
 	public static void main(String[] args) {
 		SequenceBasedFlipper flipper = new SequenceBasedFlipper();
-		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(1, 0, 2, 3, 4));
+		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(1, 3, 5, 0, 4, 6, 2));
 		
 		flipper.flipUntilCorrectlyStacked(pStack);
 	}
+}
+
+class SequencePair {
+
+	PancakeSequence seq1;
+	PancakeSequence seq2;
+	
+	public SequencePair(PancakeSequence seq1, PancakeSequence seq2) {
+		this.seq1 = seq1;
+		this.seq2 = seq2;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((seq1 == null) ? 0 : seq1.hashCode());
+		result = prime * result + ((seq2 == null) ? 0 : seq2.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SequencePair other = (SequencePair) obj;
+		if (seq1 == null) {
+			if (other.seq1 != null)
+				return false;
+		} else if (!seq1.equals(other.seq1))
+			return false;
+		if (seq2 == null) {
+			if (other.seq2 != null)
+				return false;
+		} else if (!seq2.equals(other.seq2))
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "SequencePair [seq1=" + seq1 + ", seq2=" + seq2 + "]";
+	}
+	
 }
