@@ -6,7 +6,7 @@ public class PancakeSequence {
 	private int bottomSize = -2;
 	private int topSize = -2;
 
-	public enum DeltaSize{INCREASING, DECREASING, NA};
+	enum DeltaSize{INCREASING, DECREASING, NA};
 	private DeltaSize delta = DeltaSize.NA;
 
 	public PancakeSequence(int position){

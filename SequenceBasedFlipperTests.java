@@ -7,8 +7,6 @@ import java.util.OptionalInt;
 
 import org.junit.Test;
 
-import pancakeflipperrevisited.PancakeSequence.DeltaSize;
-
 public class SequenceBasedFlipperTests {
 
 	private SequenceBasedFlipper flipper = new SequenceBasedFlipper();

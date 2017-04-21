@@ -6,18 +6,16 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import pancakeflipperrevisited.PancakeSequence.DeltaSize;
-
 public class SequencedPancakeStackTests {
 
 	@Test
 	public void test_GivenStack_WhenConstructed_ThenCreatesCorrectSequences() {
 		SequencedPancakeStack pStack = new SequencedPancakeStack(Arrays.asList(1, 0, 5, 4, 6, 3, 2));
 		
-		assertEquals(new PancakeSequence(0, 1, 0, DeltaSize.DECREASING), pStack.getSequences().get(0));
-		assertEquals(new PancakeSequence(2, 5, 4, DeltaSize.DECREASING), pStack.getSequences().get(1));
-		assertEquals(new PancakeSequence(4, 6, 6, DeltaSize.NA), pStack.getSequences().get(2));
-		assertEquals(new PancakeSequence(5, 3, 2, DeltaSize.DECREASING), pStack.getSequences().get(3));
+		assertEquals(new PancakeSequence(0, 1, 0), pStack.getSequences().get(0));
+		assertEquals(new PancakeSequence(2, 5, 4), pStack.getSequences().get(1));
+		assertEquals(new PancakeSequence(4, 6, 6), pStack.getSequences().get(2));
+		assertEquals(new PancakeSequence(5, 3, 2), pStack.getSequences().get(3));
 	}
 
 	@Test
