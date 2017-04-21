@@ -1,12 +1,18 @@
 package pancakeflipperrevisited;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MockSequencedPancakeStack extends SequencedPancakeStack {
 
 	public MockSequencedPancakeStack(List<Integer> initialStack){
 		super(initialStack);
+		seqs = new ArrayList<PancakeSequence>();
+	}
+	
+	public MockSequencedPancakeStack(Integer... initialStack){
+		super(Arrays.asList(initialStack));
 		seqs = new ArrayList<PancakeSequence>();
 	}
 	
