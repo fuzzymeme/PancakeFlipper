@@ -8,7 +8,7 @@ import java.util.List;
 public class PancakeStack {
 	
 	protected List<Integer> stack; // TODO Better private??
-	private int flipCount = 0;
+	private int flipCount = 0; 	// TODO have outside the data structure 
 	
 	public PancakeStack(){
 		stack = new ArrayList<Integer>();
@@ -57,6 +57,10 @@ public class PancakeStack {
 		return flipCount;
 	}
 	
+	public void setFlipCount(int newFlipCount) {
+		this.flipCount = newFlipCount;
+	}
+	
 //	protected void swap(int r, int s){
 //		int tmp = stack.get(r);
 //		stack.set(r, stack.get(s));
@@ -94,6 +98,34 @@ public class PancakeStack {
 			}
 			i++;
 		}	
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + flipCount;
+		result = prime * result + ((stack == null) ? 0 : stack.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PancakeStack other = (PancakeStack) obj;
+		if (flipCount != other.flipCount)
+			return false;
+		if (stack == null) {
+			if (other.stack != null)
+				return false;
+		} else if (!stack.equals(other.stack))
+			return false;
 		return true;
 	}
 
