@@ -12,6 +12,16 @@ public class PancakeSequence {
 	public PancakeSequence(int position){
 		this.position = position;
 	}
+	
+	public PancakeSequence(int position, int bottomSize, int topSize){
+		this(position, bottomSize, topSize, DeltaSize.NA);
+		
+		if(bottomSize < topSize) {
+			delta = DeltaSize.INCREASING;
+		} else if(bottomSize > topSize){
+			delta = DeltaSize.DECREASING;
+		}
+	}
 
 	public PancakeSequence(int position, int bottomSize, int topSize, DeltaSize deltaSize){
 		this.position = position;
