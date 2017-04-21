@@ -7,7 +7,7 @@ import pancakeflipperrevisited.PancakeSequence.DeltaSize;
 
 public class SequencedPancakeStack extends PancakeStack{
 
-	private List<PancakeSequence> seqs = new ArrayList<PancakeSequence>();
+	protected List<PancakeSequence> seqs = new ArrayList<PancakeSequence>();
 	
 	public SequencedPancakeStack(){
 		super();
@@ -33,7 +33,6 @@ public class SequencedPancakeStack extends PancakeStack{
 			}else{
 				dSize = DeltaSize.NA;
 			}
-//			System.out.println("last: " + lastSize + ", size: " + size + ", dSize: " + dSize);
 			
 			if(currentSequence != null && dSize != DeltaSize.NA){
 				currentSequence.setTopSize(size);
@@ -51,7 +50,6 @@ public class SequencedPancakeStack extends PancakeStack{
 				}
 				currentSequence.setPosition(i - 1);
 				seqs.add(currentSequence);
-				System.out.println("Add seq." + currentSequence.getBottomSize() + " " + currentSequence.getTopSize());
 			}
 			
 			if(dSize == DeltaSize.NA){
@@ -62,17 +60,47 @@ public class SequencedPancakeStack extends PancakeStack{
 					currentSequence.setTopSize(size);
 					currentSequence.setPosition(i);
 					seqs.add(currentSequence);
-					System.out.println("Add seq");
 				}
 				currentSequence = null; // System.out.println("Nulling");
 			}
 
 			lastSize = size;
 		}
-
-//		System.out.println("Seqs: " + seqs);
 	}
 	
+	public PancakeSequence getSequenceWithTopToBottomSizeDeltaOne(PancakeSequence seq1){
+		
+		int x = seq1.getTopSize();
+		for(PancakeSequence seq: seqs){
+			if(Math.abs(seq.getBottomSize() - x) == 1 && seq1.getPosition() < seq.getPosition() && seq != seq1){
+				return seq;
+			}
+		}
+		return null;
+	}
+	
+	public PancakeSequence getSequenceWithTopToTopSizeDeltaOne(PancakeSequence seq1){
+		
+		int x = seq1.getTopSize();
+		for(PancakeSequence seq: seqs){
+			if(Math.abs(seq.getTopSize() - x) == 1 && seq1.getPosition() < seq.getPosition() && seq != seq1){
+				return seq;
+			}
+		}
+		return null;
+	}
+	
+	public PancakeSequence getSequenceWithBottomToTopSizeDeltaOne(PancakeSequence seq1){
+		
+		int x = seq1.getBottomSize();
+		for(PancakeSequence seq: seqs){
+			if(Math.abs(seq.getTopSize() - x) == 1 && seq1.getPosition() < seq.getPosition() && seq != seq1){
+				return seq;
+			}
+		}
+		return null;
+	}
+
 	public PancakeSequence getSequenceWithBottomSizeDeltaOne(int x){
 		
 		for(PancakeSequence seq: seqs){
@@ -108,7 +136,6 @@ public class SequencedPancakeStack extends PancakeStack{
 		newSeq.setTopSize(upper.getTopSize());
 		newSeq.setDeltaSize(lower.getDeltaSize());
 		
-		System.out.println("Merged: " + newSeq);
 		seqs.remove(one);
 		seqs.remove(other);
 		seqs.add(newSeq);
@@ -117,7 +144,6 @@ public class SequencedPancakeStack extends PancakeStack{
 	public void flipSequences(int flipPosition){
 		
 		// TODO Should (??) re-order when flipped (or remove and re-insert in reverse order)
-		System.out.println("Flip Pos: " + flipPosition);
 		for(PancakeSequence seq: seqs){
 			if(seq.getPosition() + seq.getLength() <= flipPosition){
 				seq.flip(flipPosition);
@@ -156,7 +182,7 @@ public class SequencedPancakeStack extends PancakeStack{
 		// TODO Should (??) print out in order of position, or better re-order when flipped
 		StringBuffer buffer = new StringBuffer();
 		for(PancakeSequence seq: seqs){
-			buffer.append(FlipperUtils.toStringSequence(seq, this) + " ");
+			buffer.append(FlipperUtils.toStringSequence(seq, this));// + seq.getDeltaSize() + " "); // + " " + seq.getPosition());
 		}
 		
 		buffer.append(stack);
@@ -167,7 +193,6 @@ public class SequencedPancakeStack extends PancakeStack{
 		return seqs.size();
 	}
 
-	// TODO Encap
 	public List<PancakeSequence> getSequences() {
 		return seqs;
 	}
