@@ -34,9 +34,17 @@ Now the five is in the correct position and you can move on to correctly positio
 
 (BTW no code was expected of the candidate, we'd just look for the problem solving).
 
-After some time I felt that the a better algorithm could be written that would improve on 2n. So I wrote a couple of test programs to test my ideas. This repo is one of those ideas. It's still O(n), but closer to n moves than 2n moves, and that is important.
+After some time I felt that the a better algorithm could be written that would improve on 2n. So I wrote a couple of test programs to test my ideas. This repo is one of those ideas. It's still O(n) flips, but closer to n moves than 2n moves, and that is important.
+
+----------------------
 
 I'm not sure when I first wrote this. It has a time stamp back in Oct 2014, but I may have been started long before then. I think it's about time I cleaned it up a little/lot and finished it off - not to production quality, but good enough to demonstrate the idea. 
+
+----------------------
+
+This version of the code is a sequence based solution. The problem is viewed as a list of numbers that need to be ordered but as a list of sequences that have to be joined. Each flip is made to reduce the number of sequences, by combining other sequences, until there remains only one sequence (which may have to be flipped so that the widest pancake is at the base).
+
+Each flip (or set of flips) reduces the number of sequences. In a good case a single flip can join two shorter sequences, and the entire solution is made-up of this single flip actions. In such case there needs only be N flips to produce the desired result. 
 
 
 
