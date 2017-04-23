@@ -44,7 +44,28 @@ I'm not sure when I first wrote this. It has a time stamp back in Oct 2014, but 
 
 This version of the code is a sequence based solution. The problem is viewed as a list of numbers that need to be ordered but as a list of sequences that have to be joined. Each flip is made to reduce the number of sequences, by combining other sequences, until there remains only one sequence (which may have to be flipped so that the widest pancake is at the base).
 
-Each flip (or set of flips) reduces the number of sequences. In a good case a single flip can join two shorter sequences, and the entire solution is made-up of this single flip actions. In such case there needs only be N flips to produce the desired result. 
+Each flip (or set of flips) reduces the number of sequences. In a good case a single flip can join two shorter sequences, and the entire solution is made-up of this single flip actions. In such case there needs only be N flips to produce the desired result. The theory I wanted to test is whether this would work consistently and would, on average, produce something like N flips for an stack of size N. 
+
+Early on I realised that there were some cases where there needs to be more than than one flip to reduce the number of sequences. This is where the sequences are pointing in different directions relative to one another. Indeed there are some configurations where there needs to be three flips to join two sequences. The interesting thing for me is to see how often those cases arise, if they push up the average significantly and if there can be avoided. 
+
+----------------------
+
+The sequence based solution works by reducing the number of sequences with each flip and the ensuring the final flip orientates the stack into the correct direction. For example when presented with the following stack...
+
+
+3, 4, 0, 2, 1. the code will recognise the following sequences already in place. 
+
+(3 4)(0)(2 1)
+
+Next there is an obvious flip just above (to the left of) the 2 to join the first and second sequence to give....
+
+0, 4, 3, 2, 1
+
+The two sequences can now be merged to give (3, 4, 2, 1) with the remaining sequence (0) still present. Next with this example there are no simple flips, so we have to flip at the base to give....
+
+1, 2, 3, 4, 0 then above the 0 to give 4, 3, 2, 1, 0 then at the base to get the highest number to the base 0, 1, 2, 3, 4. Thus the solution is four flips long. Now to figure how the algorithm. (Side note here. There is a optimal solution but required N! memory. I wanted to be able to find a solution with around N flips for very long sequences - no N! memory of CPU solutions).
+
+
 
 
 
