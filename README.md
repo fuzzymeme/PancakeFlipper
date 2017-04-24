@@ -88,14 +88,14 @@ This would be one configuration, below are all of them
 
 To merge the sequences you would flip (at the points marked with |) to give the set of flips
 ```
-1) ... 0, 1,| ... 2, 3   ->   ... 1, 0, ... | 2, 3   -> ... 0, 1, 2, 3                      = 2 flips
-2) ... 0, 1, ... 3, 2 |  -> 2, 3 ... |1, 0.          -> ...3, 2, 1, 0                       = 2 flips 
-3) ... 1, 0, ... |2, 3   -> ...0, 1, 2, 3												    = 1 flip 
-4) ... 1, 0,| ... 3, 2   -> ... 0, 1, ... 3, 2 |     -> 2, 3 ... |1, 0 -> ...3, 2, 1, 0	    = 3 flips
-5) ... 2, 3,| ... 0, 1   -> 3, 2, ...0, 1|.          -> 1, 0, ... |2, 3, -> ...0, 1, 2, 3   = 3 flips
-6) ... 3, 2, ... 0, 1|   -> 1, 0, ... |2, 3,         -> ...0, 1, 2, 3                       = 2 flips
-7) ... 2, 3, ... |1, 0   -> ... 3, 2, 1, 0                                                  = 1 flip
-8) ... 3, 2,| ... 1, 0   -> 2, 3, ... |1, 0   -> ... 3, 2, 1, 0                             = 2 flips
+1) ... 0, 1,| ... 2, 3   ->   ... 1, 0, ... | 2, 3   -> ... 0, 1, 2, 3                       = 2 flips
+2) ... 0, 1, ... 3, 2 |  -> 2, 3 ... |1, 0.          -> ...3, 2, 1, 0                        = 2 flips 
+3) ... 1, 0, ... |2, 3   -> ...0, 1, 2, 3                                                    = 1 flip 
+4) ... 1, 0,| ... 3, 2   -> ... 0, 1, ... 3, 2 |     -> 2, 3 ... |1, 0    -> ...3, 2, 1, 0	 = 3 flips
+5) ... 2, 3,| ... 0, 1   -> 3, 2, ...0, 1|           -> 1, 0, ... |2, 3   -> ...0, 1, 2, 3   = 3 flips
+6) ... 3, 2, ... 0, 1|   -> 1, 0, ... |2, 3,         -> ...0, 1, 2, 3                        = 2 flips
+7) ... 2, 3, ... |1, 0   -> ... 3, 2, 1, 0                                                   = 1 flip
+8) ... 3, 2,| ... 1, 0   -> 2, 3, ... |1, 0          -> ... 3, 2, 1, 0                       = 2 flips
 ```
 
 (I'm bound to have typoed in there somewhere)
@@ -176,9 +176,16 @@ Does it solve the average N high stack in around N flips? Yes it does.
 For benchmarking I wrote code to generate all permutations of pancakes (actually adapted some permutation code I found on-line) and ran against all permutations for given lengths. This produces the following results. 
 
 ```
-Length 			Permutations 		Total flips 			Av flips 		Time (Clock)
-2					2					1					0.5					0.013
-3					6					9					1.5					0.13
+Length        Permutations        Total flips       Av flips      Time (Clock)
+2                  2                  1               0.50          0.013
+3                  6                  6               1.50          0.013
+4                  24                 61              2.52          0.018
+5                  120                466             3.80          0.050
+6                  720                3,629           5.04          0.172
+7                  5040               31,678          6.29          0.605
+8                  40320              304,169         7.54          5.434
+9                  3,371,462          3,194,911       8.80          45.24
+
 ```
 
 
