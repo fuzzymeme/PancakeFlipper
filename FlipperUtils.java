@@ -1,5 +1,6 @@
 package pancakeflipperrevisited;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,5 +32,21 @@ public class FlipperUtils {
 		return list.toArray(new Integer[list.size()]); 
 		
 	}
+	
+	public static BigInteger getFactorial(int size) {
+				
+		BigInteger fact = BigInteger.valueOf(1);
 
+	    for (int i = 1; i <= size; i++)
+	        fact = fact.multiply(BigInteger.valueOf(i));
+		
+		return fact;		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		int length = 4000;
+		System.out.println(length + ":" + FlipperUtils.getFactorial(length));
+	}
 }
