@@ -53,27 +53,29 @@ Early on I realised that there were some cases where there needs to be more than
 The sequence based solution works by reducing the number of sequences with each flip and the ensuring the final flip orientates the stack into the correct direction. For example when presented with the following stack...
 
 
-3, 4, 0, 2, 1. the code will recognise the following sequences already in place. 
+3, 4, 0, 2, 1. The code will recognise the following sequences already in place. 
 
 (3 4)(0)(2 1)
 
-Next there is an obvious flip just above (to the left of) the 2 to join the first and second sequence to give....
+Here there is an obvious flip just above (to the left of) the 2 to join the first and second sequence to give....
 
 0, 4, 3, 2, 1
 
-The two sequences can now be merged to give (3, 4, 2, 1) with the remaining sequence (0) still present. Next with this example there are no simple flips, so we have to flip at the base to give....
+Two sequences can now be merged to give (3, 4, 2, 1) with the remaining sequence (0) still present. Next with this example there are no simple flips next, so we have to flip at the base to give....
 
-1, 2, 3, 4, 0 then above the 0 to give 4, 3, 2, 1, 0 then at the base to get the highest number to the base 0, 1, 2, 3, 4. Thus the solution is four flips long. Now to figure how the algorithm. (Side note here. There is a optimal solution but required N! memory. I wanted to be able to find a solution with around N flips for very long sequences - no N! memory of CPU solutions).
+1, 2, 3, 4, 0 then above the 0 to give 4, 3, 2, 1, 0 then at the base to get the highest number to the base 0, 1, 2, 3, 4. Thus the solution is four flips long. 
+
+Now to figure how the algorithm. (Side note here. There is a optimal solution but required N! memory. I wanted to be able to find a solution with around N flips for very long sequences - no N! memory of CPU solutions).
 
 First consider the different type of sequences that could be merged. 
 
-<some numbers> 0, 1 <some other numbers> 2, 3 <maybe more numbers> 
+*some numbers* 0, 1 *some other numbers* 2, 3 *maybe more numbers*  
 
 can be written as...
 
 ... 0, 1, ... 2, 3
 
-This would be one case below are all the configurations. 
+This would be one configuration, below are all of them
 
 1) ... 0, 1, ... 2, 3
 2) ... 0, 1, ... 3, 2
@@ -85,30 +87,33 @@ This would be one case below are all the configurations.
 8) ... 3, 2, ... 1, 0
 
 To merge the sequences you would flip (at the points marked with |) to give the set of flips
-
-1) ... 0, 1,| ... 2, 3 -> ... 1, 0, ... | 2, 3 -> ... 0, 1, 2, 3   					2 flips
-2) ... 0, 1, ... 3, 2 | -> 2, 3 ... |1, 0 -> ...3, 2, 1, 0 							2 flips 
-3) ... 1, 0, ... |2, 3 -> ...0, 1, 2, 3												1 flip 
-4) ... 1, 0,| ... 3, 2 -> ... 0, 1, ... 3, 2 | -> 2, 3 ... |1, 0 -> ...3, 2, 1, 0	3 flips
-5) ... 2, 3,| ... 0, 1 -> 3, 2, ...0, 1| -> 1, 0, ... |2, 3, -> ...0, 1, 2, 3, 		3 flips
-6) ... 3, 2, ... 0, 1| -> 1, 0, ... |2, 3, -> ...0, 1, 2, 3, 						2 flips
-7) 2, 3, ... |1, 0 -> ... 3, 2, 1, 0												1 flip
-8) ... 3, 2,| ... 1, 0 -> 2, 3, ... |1, 0 -> ... 3, 2, 1, 0							2 flips
-
+```
+1) ... 0, 1,| ... 2, 3   ->   ... 1, 0, ... | 2, 3   -> ... 0, 1, 2, 3   				= 2 flips
+2) ... 0, 1, ... 3, 2 |   -> 2, 3 ... |1, 0   -> ...3, 2, 1, 0 							= 2 flips 
+3) ... 1, 0, ... |2, 3   -> ...0, 1, 2, 3												= 1 flip 
+4) ... 1, 0,| ... 3, 2   -> ... 0, 1, ... 3, 2 |   -> 2, 3 ... |1, 0 -> ...3, 2, 1, 0	= 3 flips
+5) ... 2, 3,| ... 0, 1   -> 3, 2, ...0, 1|   -> 1, 0, ... |2, 3, -> ...0, 1, 2, 3, 		= 3 flips
+6) ... 3, 2, ... 0, 1|   -> 1, 0, ... |2, 3,   -> ...0, 1, 2, 3, 						= 2 flips
+7) 2, 3, ... |1, 0   -> ... 3, 2, 1, 0													= 1 flip
+8) ... 3, 2,| ... 1, 0   -> 2, 3, ... |1, 0   -> ... 3, 2, 1, 0							= 2 flips
+```
 
 (I'm bound to have typoed in there somewhere)
 
 
 Looking at these rules I saw that after the first step rule 4 became rule 2.
-
+```
 4) ... 1, 0,| ... 3, 2 -> ... 0, 1, ... 3, 2 | -> 2, 3 ... |1, 0 -> ...3, 2, 1, 0	
 2) 						  ... 0, 1, ... 3, 2 | -> 2, 3 ... |1, 0 -> ...3, 2, 1, 0 	
+```
 
 So the logically (and in the code) the algorithm would perform one step for rule 4 then use the functionality of rule 2. 
 Looking at rule 2 I saw the after its first step it became rule 7. 
 
+```
 2) ... 0, 1, ... 3, 2 | -> 2, 3, ... |1, 0 -> ...3, 2, 1, 0 	
 7) 						   2, 3, ... |1, 0 -> ... 3, 2, 1, 0
+```
 
 Plotting out all for the relationship between the rules gave...
 
@@ -125,25 +130,26 @@ and
 		  |  
 		  1 
 
+So Rule 5 is one step followed by the steps of rule 6, which itself is one step followed by the steps of rule 3. 
 
-Here I looked for some commonality - where I could generalise two for more rules. For example rules 3 and 7 are very similar. 
-
+Next I looked for some commonality - where I could generalise two for more rules. For example rules 3 and 7 are very similar. 
+```
 3) (1, 0) ... |(2, 3) -> ... (0, 1, 2, 3)	1 flip 
 7) (2, 3) ... |(1, 0) -> ... (3, 2, 1, 0)	1 flip
-
+```
 The the matching of the sequences being the 1 to the 2 in rule three, and 2 to the 1 in rule 7. These can be generalised to 
 
-(x, ..) ... |(x+-1, ...) -> <megered sequence> 
+(x, ..) ... |(x+-1, ...) -> *megered sequence*
 
 Given that is this the combination of rules 3 and 7 I called it rule 37. 
 
 Rules 1 and 8 can be combined to produce
 
-(.., x)| ... (x+-1, ..) -> rule 37
+(.., x)| ... (x+-1, ..) -> *then the steps of rule 37*
 
 
 Rules 2 and 6 give...
-(.., x) ... (.., x+-1)| -> rule 37
+(.., x) ... (.., x+-1)| -> *then the steps of rule 37*
 
 
 etc to give...  
@@ -164,13 +170,14 @@ That's pretty much the solution. I think I'm going to stick with the rule names 
 
 Does it solve the average N high stack in around N flips? Yes it does. 
 
+#### Benchmarking
 For benchmarking I wrote code to generate all permutations of pancakes (actually adapted some permutation code I found on-line) and ran against all permutations for given lengths. This produces the following results. 
 
-
+'''
 Length 			Permutations 		Total flips 			Av flips 		Time (Clock)
 2					2					1					0.5					0.013
 3					6					9					1.5					0.13
-	
+'''
 
 
 
