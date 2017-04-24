@@ -1,5 +1,9 @@
 package pancakeflipperrevisited;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class FlipperUtils {
 
 	public static String toStringSequence(PancakeSequence seq, PancakeStack stack) {
@@ -14,6 +18,18 @@ public class FlipperUtils {
 		}
 		buffer.append(")");
 		return buffer.toString();
+	}
+	
+	public static Integer[] getPermutation(int length) {
+		
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < length; i++) {
+			list.add(i);
+		}
+		Collections.shuffle(list);
+					
+		return list.toArray(new Integer[list.size()]); 
+		
 	}
 
 }
