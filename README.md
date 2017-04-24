@@ -184,9 +184,31 @@ Length        Permutations        Total flips       Av flips      Time (Clock)
 6                  720                3,629           5.04          0.172
 7                  5040               31,678          6.29          0.605
 8                  40320              304,169         7.54          5.434
-9                  3,371,462          3,194,911       8.80          45.24
+9                  362,880            3,194,911       8.80          45.24
 
 ```
+Although a quick look at that code would suggest it runs in O(n^3) that would be somewhat naive. As the length increases the number of permutations increases, but the number of stacks the code can process remains similar. With stacks of length 7, 8 and 9 being processed in at a rate of 8330, 7419 and 8021 permutations per second. Using only those data is very noisy, but that doesn't look O(n^3). Looking at the actual code it can be seen that outer most loop is indeed O(n). The next inner loop is usually terminated as soon as it finds a match, often within one or two checks. The next inner loop terminates as soon it finds a match (yes, strictly speaking still O(n)). The last loop could be converted to a constant time look up with a HashMap, but I'm not going to do that optimisation. So yes, given a difficult stack the it'll take time, but across all permutations it's actually pretty efficient. 
+
+I've run it with stacks of great length, e.g. 2000, and 4000. That would be 2000! different permutations - way more than the number of atoms in the universe etc, etc. Indeed on-line calculators seem to drop out at 170! and going beyond is claimed to be infinity - even though 2000! is way, way more that 170!. Anyway the code takes about 5.5 seconds to process a stack of length 2000, taking longer to print the solution than to calculate the solution. So the goal of writing code that doesn't take n! CPU or memory to complete. 
+
+It does seem that the average number of flips per permutation is moving towards N, and begins to exceed N for lengths greater than 15. Hmm, still in need of some optimisation. 
+
+As part of the benchmarking the code stores the sequences that it take the most flips to resolve. Some of these so sub-optimal flips and it is clear more improvements can be made without, I believe, fundamentally altering the code. 
+
+#### 24 April 2017
+I'm going to leave the code here for a while as there's lot of other code I'd like to write. Some of that is related to this - most is not. Related to this is a alternative solution which will generate the optimum solutions but only of smaller stacks - it's an O(n!) memory algorithm. 
+
+#### ToDos
+
+- [] See that the flips to base solutions don't get undone by later flips
+- [] Remove the MockSequencePancakeStack which adds nothing to the code
+- [] Is Delta.INCREASING DECREASING still needed?
+- [] createSeq a bit long
+- [] ToDos
+- [] Factorial Calculator based on BigInteger 
+
+
+
 
 
 
