@@ -205,7 +205,8 @@ I'm going to leave the code here for a while as there's lot of other code I'd li
 - [] Is Delta.INCREASING DECREASING still needed?
 - [] createSeq a bit long
 - [] ToDos
-- [] Factorial Calculator based on BigInteger 
+- [x] Factorial Calculator based on BigInteger 
+- [] Move a lot of the basic flip utils into the FlipperUtils class from SequenceBasedFlipper
 
 
 
